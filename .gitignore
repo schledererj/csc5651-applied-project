@@ -1,1 +1,25 @@
-.env
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Virtual environment
+venv/
+env/
+*.venv
+*.env
+.venv/
+.env/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints/
+*.nbconvert.ipynb
+
+# Logs
+*.log
+logs/
+
+# Other
+.DS_Store
+.idea/
+.vscode/
