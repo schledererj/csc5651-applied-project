@@ -1,0 +1,49 @@
+scratch pad for notes
+
+# ===== Uncomment this block to draw ground truth boxes in green and predicted boxes in red =====
+# detections = filter_and_convert_detections(detect_fn(input_tensor), 1, 0.5)
+
+# image_with_boxes = frame.copy()
+# for box in detections['detection_boxes']:
+#     height = int(box[0])
+#     width = int(box[1])
+#     x = int(box[2])
+#     y = int(box[3])
+#     cv2.rectangle(image_with_boxes, (x, y), (x + width, y + height), (0, 0, 255), 2)
+
+# for box in ground_truth_annotations.get(str(i)):
+#     height = box[1]
+#     width = box[2]
+#     x = box[3]
+#     y = box[4]
+#     cv2.rectangle(image_with_boxes, (x, y), (x + width, y + height), (0, 255, 0), 2)
+# out.write(image_with_boxes)
+
+# output_file = f'/mnt/d/school/csc5651/soc_output/dets_and_gt_filmrole1.avi'
+# fps = 25
+# frame_size = (1024, 1024)
+# out = cv2.VideoWriter(output_file, fourcc, fps, frame_size)
+# (don't forget to out.release())
+
+def filter_and_convert_detections(detections, label_id, threshold):
+    scores = detections['detection_scores'][0].numpy()
+    boxes = detections['detection_boxes'][0].numpy()
+    classes = detections['detection_classes'][0].numpy().astype(int)
+
+    mask = (classes == label_id) & (scores > threshold)
+    scores = scores[mask]
+    boxes = boxes[mask] * 1024
+    converted_boxes = list()
+    for box in boxes:
+        ymin = box[0]
+        xmin = box[1]
+        ymax = box[2]
+        xmax = box[3]
+        height = ymax - ymin
+        width = xmax - xmin
+        box_x = xmin
+        box_y = ymin
+        converted_boxes.append([height, width, box_x, box_y])
+
+
+    return {'detection_scores': scores, 'detection_boxes': np.array(converted_boxes)}
