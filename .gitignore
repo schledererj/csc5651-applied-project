@@ -23,3 +23,9 @@ logs/
 .DS_Store
 .idea/
 .vscode/
+
+# Checkpoints
+*.data-*
+*.index
+checkpoint
+saved_model/
